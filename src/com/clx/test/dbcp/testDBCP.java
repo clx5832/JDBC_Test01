@@ -21,6 +21,5 @@ public class testDBCP {
 
         //2.为数据源实例指定必须的属性
 
-
     }
 }
