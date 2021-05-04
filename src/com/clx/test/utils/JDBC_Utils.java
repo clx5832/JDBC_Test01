@@ -137,6 +137,7 @@ public class JDBC_Utils {
 
     /***
      * 处理数据库业务的
+     * 提交事务
      * */
     public static void commit(Connection connection){
 
@@ -164,6 +165,7 @@ public class JDBC_Utils {
 
     /***
      * 自动使提交无效
+     * 开始事务
      * */
     public static void beginTx(Connection connection){
         if (connection != null){
