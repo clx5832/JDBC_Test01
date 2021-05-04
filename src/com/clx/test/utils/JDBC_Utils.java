@@ -133,4 +133,45 @@ public class JDBC_Utils {
 
         return connection;
     }
+
+
+    /***
+     * 处理数据库业务的
+     * */
+    public static void commit(Connection connection){
+
+        if (connection != null){
+            try {
+                connection.commit();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    /***
+     * 事务回滚事务的
+     * */
+    public static void rollback(Connection connection){
+        if (connection != null){
+            try {
+                connection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    /***
+     * 自动使提交无效
+     * */
+    public static void beginTx(Connection connection){
+        if (connection != null){
+            try {
+                connection.setAutoCommit(false);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
 }
