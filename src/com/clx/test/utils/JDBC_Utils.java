@@ -1,7 +1,9 @@
 package com.clx.test.utils;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mysql.jdbc.Driver;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
@@ -85,6 +87,10 @@ public class JDBC_Utils {
         }
         try {
             if (connection != null) {
+
+                /**数据库连接池的Connection 对象进行close时
+                 * 并不是真的进行关闭，而是把该数据库链接会归还到数据库链接池中
+                 * */
                 connection.close();
             }
         } catch (Exception e) {
@@ -139,9 +145,9 @@ public class JDBC_Utils {
      * 处理数据库业务的
      * 提交事务
      * */
-    public static void commit(Connection connection){
+    public static void commit(Connection connection) {
 
-        if (connection != null){
+        if (connection != null) {
             try {
                 connection.commit();
             } catch (SQLException throwables) {
@@ -153,8 +159,8 @@ public class JDBC_Utils {
     /***
      * 事务回滚事务的
      * */
-    public static void rollback(Connection connection){
-        if (connection != null){
+    public static void rollback(Connection connection) {
+        if (connection != null) {
             try {
                 connection.rollback();
             } catch (SQLException throwables) {
@@ -167,13 +173,29 @@ public class JDBC_Utils {
      * 自动使提交无效
      * 开始事务
      * */
-    public static void beginTx(Connection connection){
-        if (connection != null){
+    public static void beginTx(Connection connection) {
+        if (connection != null) {
             try {
                 connection.setAutoCommit(false);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         }
+    }
+
+
+    /**
+     * C3P0的调用工具中的方法
+     * */
+    private static DataSource dataSource = null;
+
+    /**数据库链接池应该只被初始化一次，用static来修饰
+     * */
+    static {
+        dataSource = new ComboPooledDataSource("helloc3p0");
+    }
+
+    public static Connection getConnection2() throws Exception {
+        return dataSource.getConnection();
     }
 }
